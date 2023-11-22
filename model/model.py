@@ -34,7 +34,7 @@ def weights_init_normal(model: nn.Module):
 WeightsEnum.get_state_dict = get_state_dict
 
 
-def effnet(
+def get_model(
         model_str: str = 'efficientnet_b3',
         pretrained: bool = True,
         frozen: bool = True,
@@ -49,7 +49,7 @@ def effnet(
     """
 
     model = torchvision.models.get_model(model_str, pretrained=pretrained)
-    model.classifier[1] = torch.nn.Linear(1536, 28)
+    model.classifier[1] = torch.nn.Linear(model.classifier[1].weight.size(1), 28)
     model.classifier[1].apply(weights_init_normal)
 
     if frozen:

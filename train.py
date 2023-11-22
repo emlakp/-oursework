@@ -1,10 +1,10 @@
 from dataloader.augmentations import *
 from dataloader.dataloader import *
-from model.effnet import effnet
+from model.model import get_model
 from training.trainer import *
 
 if __name__ == '__main__':
-    model = effnet(
+    model = get_model(
         'efficientnet_b3',
         pretrained=True,
         frozen=True,
