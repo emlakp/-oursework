@@ -6,18 +6,6 @@ from torchvision.models._api import WeightsEnum
 from torch.hub import load_state_dict_from_url
 
 
-def get_state_dict(self, *args, **kwargs):
-    """Obtains state dict for fetching model weights. Quick workaround for hashing error
-
-    :param self:
-    :param args:
-    :param kwargs:
-    :return:
-    """
-    kwargs.pop("check_hash")
-    return load_state_dict_from_url(self.url, *args, **kwargs)
-
-
 def weights_init_normal(model: nn.Module):
     """Initialize the weights of linear layer
 
@@ -29,9 +17,6 @@ def weights_init_normal(model: nn.Module):
         y = model.in_features
         model.weight.data.normal(0.0, 1 / np.sqrt(y))
         model.bias.data.fill_(0)
-
-
-WeightsEnum.get_state_dict = get_state_dict
 
 
 def get_model(

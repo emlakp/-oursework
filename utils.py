@@ -15,5 +15,18 @@ def setup_seed(seed: int):
     np.random.seed(seed)
     torch.backends.cudnn.deterministic = True
 
+def get_state_dict(self, *args, **kwargs):
+    """Obtains state dict for fetching model weights. Quick workaround for hashing error
+
+    :param self:
+    :param args:
+    :param kwargs:
+    :return:
+    """
+    kwargs.pop("check_hash")
+    return load_state_dict_from_url(self.url, *args, **kwargs)
+
+WeightsEnum.get_state_dict = get_state_dict
+
 
 setup_seed(12)
