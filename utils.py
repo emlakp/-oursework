@@ -12,7 +12,7 @@ import os
 import copy
 
 
-def setup_seed(seed):
+def setup_seed(seed: int):
     os.environ['PYTHONHASHSEED'] = str(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)

@@ -2,7 +2,19 @@ import numpy as np
 import torch
 
 
-def mixed_data(x, y, alpha=1.0, cuda=True):
+def mixed_data(
+        x: torch.Tensor,
+        y: torch.Tensor,
+        alpha: float = 1.0,
+        cuda: bool = True):
+    """
+
+    :param x: features
+    :param y: target
+    :param alpha: mixing hyperparameter
+    :param cuda: accelerating device
+    :return: mixed features, targets for initial mixed images, mixing coefficient
+    """
     if alpha > 0:
         lam = np.random.beta(alpha, alpha)
     else:
@@ -20,11 +32,31 @@ def mixed_data(x, y, alpha=1.0, cuda=True):
     return mixed_x, y_a, y_b, lam
 
 
-def mixed_criterion(criterion, pred, y_a, y_b, lam):
+def mixed_criterion(
+        criterion: torch.nn.modules.loss,
+        pred: torch.Tensor,
+        y_a: torch.Tensor,
+        y_b: torch.Tensor,
+        lam: float):
+    """Calculates the mixed loss for augmented instances
+
+    :param criterion:
+    :param pred:
+    :param y_a:
+    :param y_b:
+    :param lam:
+    :return: mixed loss
+    """
     return lam * criterion(pred, y_a) + (1 - lam) * criterion(pred, y_b)
 
 
 def rand_bbox(size, lam):
+    """Function to produce 2 random crops
+
+    :param size:
+    :param lam:
+    :return: coordinates of cropped rectangles
+    """
     W = size[2]
     H = size[3]
     cut_rat = np.sqrt(1. - lam)
@@ -42,7 +74,14 @@ def rand_bbox(size, lam):
     return bbx1, bby1, bbx2, bby2
 
 
-def cutmix(data, target, alpha):
+def cutmix(data: torch.Tensor, target: torch.Tensor, alpha: float):
+    """
+    Implements cutmix augmentatin
+    :param data: features
+    :param target: labels
+    :param alpha: mixing hyperparameter
+    :return: augmented sampels
+    """
     indices = torch.randperm(data.size(0))
     shuffled_data = data[indices]
     shuffled_target = target[indices]

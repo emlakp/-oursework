@@ -14,9 +14,21 @@ def adam_cosine_lin(
         lr_min=1e-3,
         lr_max=1e-2,
         T_max=10):
+    """
+
+    :param model: model to optimize
+    :param lr: learning rate
+    :param weight_decay: weightdecay hyperparamter
+    :param warm_up_iter: number of warm up iterations
+    :param lr_min: minimal learning rate in cosine annealing
+    :param lr_max: maximum learning rate in cosine annealing
+    :param T_max: number of steps
+    :return:
+    """
     def lambda_0(curr_iter): return curr_iter / warm_up_iter if curr_iter < warm_up_iter else \
         (lr_min + 0.5 * (lr_max - lr_min) * (
             1.0 + math.cos((curr_iter - warm_up_iter) / (T_max - warm_up_iter) * math.pi))) / 0.1
+
     optimizer = optim.Adam(
         model.parameters(),
         lr=lr,
@@ -34,6 +46,18 @@ def train_model(
         scheduler,
         num_epochs=25,
         device='cpu'):
+    """
+
+    :param model: model to train
+    :param dataloaders: dictionary with train and val dataloader
+    :param dataset_sizes: dictionary with trainset and valset size
+    :param criterion: loss function
+    :param optimizer: optimizer
+    :param scheduler: lr scheduler
+    :param num_epochs: num of epochs for training
+    :param device: accelerating device
+    :return:
+    """
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
 

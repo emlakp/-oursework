@@ -11,7 +11,7 @@ def get_state_dict(self, *args, **kwargs):
     return load_state_dict_from_url(self.url, *args, **kwargs)
 
 
-def weights_init_normal(model):
+def weights_init_normal(model: nn.Module):
     classnames = model.__class__.__name__
     if classnames.find('Linear'):
         y = model.in_features
@@ -23,10 +23,10 @@ WeightsEnum.get_state_dict = get_state_dict
 
 
 def effnet(
-        model_str='efficientnet_b3',
-        pretrained=True,
-        frozen=True,
-        device='cpu'):
+        model_str: str = 'efficientnet_b3',
+        pretrained: bool = True,
+        frozen: bool = True,
+        device: str = "cpu"):
 
     model = torchvision.models.get_model(model_str, pretrained=pretrained)
     model.classifier[1] = torch.nn.Linear(1536, 28)
