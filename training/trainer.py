@@ -140,7 +140,7 @@ def train_model(
                 val_acc = val_acc
                 val_losses.append(epoch_loss)
                 val_accs.append(epoch_acc)
-                
+
                 logger.log_measurements(train_loss, train_acc, val_loss, val_acc, 'training_logs.txt')
 
                 save_model(
