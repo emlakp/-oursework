@@ -1,18 +1,14 @@
 import torch
-from torch.utils.data import Dataset
-from torchvision import models
-from torchvision.transforms import *
-from sklearn.preprocessing import LabelBinarizer
-from torch import nn, optim
-from torch.nn import functional as F
-from torch.utils.data import DataLoader, random_split, Subset
 import numpy as np
-import pandas as pd
 import os
-import copy
 
 
 def setup_seed(seed: int):
+    """Fixes random seed for reproducibility
+
+    :param seed:
+    :return:
+    """
     os.environ['PYTHONHASHSEED'] = str(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)

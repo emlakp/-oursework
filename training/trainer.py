@@ -1,5 +1,5 @@
 import math
-import torch
+from logging import logging
 import copy
 import time
 from torch import optim
@@ -60,7 +60,7 @@ def train_model(
     """
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
-
+    logger = logging.TrainingLogger()
     for epoch in range(num_epochs):
         print(f'Epoch {epoch}/{num_epochs - 1}')
         print('-' * 10)
@@ -125,14 +125,24 @@ def train_model(
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
 
+            train_loss = 0.
+            train_acc = 0.
+            val_loss = 0.
+            val_acc = 0.
+
             if phase == 'train':
+                train_loss = epoch_loss
+                train_acc = epoch_acc
                 train_losses.append(epoch_loss)
                 train_accs.append(epoch_acc)
             else:
+                val_loss = val_loss
+                val_acc = val_acc
                 val_losses.append(epoch_loss)
                 val_accs.append(epoch_acc)
+                
+                logger.log_measurements(train_loss, train_acc, val_loss, val_acc, 'training_logs.txt')
 
-            if phase == 'val':
                 save_model(
                     epoch + 1000,
                     model,
