@@ -3,6 +3,7 @@ import torchvision
 import torch
 from torchvision.transforms import *
 import sklearn.preprocessing
+from torchvision.io import read_image
 import numpy as np
 import pandas as pd
 from typing import Callable

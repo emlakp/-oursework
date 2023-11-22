@@ -7,7 +7,8 @@ def mixed_data(
         y: torch.Tensor,
         alpha: float = 1.0,
         cuda: bool = True):
-    """
+    """Implements MixUp augmentation
+
 
     :param x: features
     :param y: target
@@ -75,8 +76,8 @@ def rand_bbox(size, lam):
 
 
 def cutmix(data: torch.Tensor, target: torch.Tensor, alpha: float):
-    """
-    Implements cutmix augmentatin
+    """Implements CutMix augmentation
+
     :param data: features
     :param target: labels
     :param alpha: mixing hyperparameter
