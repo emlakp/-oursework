@@ -46,7 +46,7 @@ def train_model(
         scheduler,
         num_epochs=25,
         device='cpu'):
-    """
+    """Main function for training the neural network
 
     :param model: model to train
     :param dataloaders: dictionary with train and val dataloader
